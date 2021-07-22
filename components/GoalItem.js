@@ -3,9 +3,9 @@ import React from 'react'
 import {View, Text, TouchableOpacity, StyleSheet} from 'react-native'
 
 
-function GoalItem({value, onDeleteGoal}){
+function GoalItem({value, onDeleteGoal, id}){
     return  (
-        <TouchableOpacity activeOpacity = {0.8} onPress = {onDeleteGoal}>
+        <TouchableOpacity activeOpacity = {0.8} onPress = {() => onDeleteGoal(id)}>
 
             <View style={styles.listItem} >
               <Text>{value}</Text>

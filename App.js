@@ -6,20 +6,30 @@ import GoalItem from './components/GoalItem';
 import GoalInput from './components/GoalInput';
 
 export default function App() {
-  const [courseGoals, setCourseGoals] = useState([])
-  const addGoalHandler = (goalTitle) =>{
-    setCourseGoals(currentGoals => [...currentGoals, {key : Math.random().toString(), value : goalTitle}])
-  }
-  const handleDeleteGoal = () => {
+    const [courseGoals, setCourseGoals] = useState([])
+    const [addModal, setAddModal] = useState(false)
 
-  }
+    const addGoalHandler = (goalTitle) =>{
+        setCourseGoals(currentGoals => [...currentGoals, {key : Math.random().toString(), value : goalTitle}])
+        setAddModal(false)
+    }
+    const handleDeleteGoal = (goalId) => {
+		setCourseGoals(currentGoals => {
+		return currentGoals.filter((goal) => goal.key !== goalId);
+    } 
+      )
+    }
+    const handleCancelGoalAddition=() => {
+      setAddModal(false)
+    }
   return (
     <View style={styles.container}>
-      <GoalInput onAddGoal = {addGoalHandler}/>
+      <Button title = "Add Goal"  onPress = {() => setAddModal(true)}/>
+    <GoalInput visible = {addModal} onAddGoal = {addGoalHandler} onCancel = {handleCancelGoalAddition}/>
       <FlatList 
           data={courseGoals} 
           renderItem={itemData => 
-              <GoalItem value = {itemData.item.value} onDeleteGoal ={handleDeleteGoal}/>
+              <GoalItem value = {itemData.item.value} id = {itemData.item.key} onDeleteGoal ={handleDeleteGoal}/>
             }
            />
     </View>
